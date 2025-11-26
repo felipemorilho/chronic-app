@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002
+      author: felipe.morilho
+      changes:
+        - createTable:
+            tableName: pain_register
+            columns:
+              - column:
+                  name: pain_id
+                  type: SERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: intensity
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: TEXT
+              - column:
+                  name: body_part
+                  type: VARCHAR(100)
+              - column:
+                  name: occur_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+
+        - addForeignKeyConstraint:
+            baseTableName: pain_register
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: user_id
+            constraintName: fk_pain_user
+            onDelete: CASCADE

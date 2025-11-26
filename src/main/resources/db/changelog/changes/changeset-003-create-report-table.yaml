@@ -1,0 +1,42 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003
+      author: felipe.morilho
+      changes:
+        - createTable:
+            tableName: report
+            columns:
+              - column:
+                  name: report_id
+                  type: SERIAL
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: started_at
+                  type: DATE
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ended_at
+                  type: DATE
+              - column:
+                  name: summary
+                  type: TEXT
+              - column:
+                  name: generated_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+
+        - addForeignKeyConstraint:
+            baseTableName: report
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: user_id
+            constraintName: fk_report_user
+            onDelete: CASCADE
