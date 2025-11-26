@@ -2,6 +2,8 @@ package com.chronicpain.controller
 
 import com.chronicpain.domain.dto.user.CreateUserRequest
 import com.chronicpain.domain.dto.user.UserResponse
+import com.chronicpain.usecase.user.CreateUserUseCase
+import com.chronicpain.usecase.user.GetUserUseCase
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -19,6 +21,6 @@ class UserController(
 
     @GetMapping("/{id}")
     fun getById(@PathVariable id: Long): ResponseEntity<UserResponse> {
-        return ResponseEntity.ok(createUserUseCase.execute(id))
+        return ResponseEntity.ok(getUserUseCase.execute(id))
     }
 }
