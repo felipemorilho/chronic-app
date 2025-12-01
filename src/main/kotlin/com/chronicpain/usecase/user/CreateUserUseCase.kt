@@ -57,7 +57,7 @@ class CreateUserUseCase(
     private fun validateInputPassword(password: String) {
         if (password.isEmpty()) throw BadRequestException("Password is required")
 
-        if (password.length < 6 || password.length > 15) throw BadRequestException("Password should be more than 6 characters")
+        if (password.length < 6 || password.length > 15) throw BadRequestException("Password should have between 6 and 15 characters")
 
     }
 
