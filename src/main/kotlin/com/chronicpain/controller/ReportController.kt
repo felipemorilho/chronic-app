@@ -1,6 +1,7 @@
 package com.chronicpain.controller
 
 import com.chronicpain.domain.dto.report.CreateReportRequest
+import com.chronicpain.usecase.report.GetReportByIdUseCase
 import com.chronicpain.domain.dto.report.ReportResponse
 import com.chronicpain.domain.dto.report.UpdateReportRequest
 import com.chronicpain.usecase.report.CreateReportUseCase
@@ -16,7 +17,8 @@ class ReportController(
     private val createReportUseCase: CreateReportUseCase,
     private val updateReportUseCase: UpdateReportUseCase,
     private val deleteReportUseCase: DeleteReportUseCase,
-    private val getUserReportsUseCase: GetUserReportsUseCase
+    private val getUserReportsUseCase: GetUserReportsUseCase,
+    private val getReportByIdUseCase: GetReportByIdUseCase
 ) {
 
     @PostMapping
@@ -24,8 +26,13 @@ class ReportController(
         return ResponseEntity.ok(createReportUseCase.execute(request))
     }
 
-    @GetMapping("/{userId}")
-    fun getById(@PathVariable userId: Long): ResponseEntity<List<ReportResponse>> {
+    @GetMapping("/{reportId}")
+    fun getById(@PathVariable reportId: Long): ResponseEntity<ReportResponse> {
+        return ResponseEntity.ok(getReportByIdUseCase.execute(reportId))
+    }
+
+    @GetMapping("/user/{userId}")
+    fun getByUserId(@PathVariable userId: Long): ResponseEntity<List<ReportResponse>> {
         return ResponseEntity.ok(getUserReportsUseCase.execute(userId))
     }
 

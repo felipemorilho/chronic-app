@@ -2,7 +2,6 @@ package com.chronicpain.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.web.SecurityFilterChain
 
@@ -15,10 +14,8 @@ class SecurityConfig {
             .csrf { it.disable() }
             .authorizeHttpRequests { auth ->
                 auth
-                    .requestMatchers("/v1/healthcheck").permitAll()
-                    .anyRequest().authenticated()
+                    .anyRequest().permitAll()
             }
-            .httpBasic(Customizer.withDefaults())
 
         return http.build()
     }

@@ -98,9 +98,10 @@ class UpdateReportUseCase(
     private fun buildReportResponse(report: Report): ReportResponse =
         ReportResponse(
             id = report.id,
+            userId = report.user.id,
             startedAt = report.startedAt,
             endedAt = report.endedAt,
             summary = report.summary,
-            sendAt = report.sendAt
+            generatedAt = report.generatedAt
         )
 }

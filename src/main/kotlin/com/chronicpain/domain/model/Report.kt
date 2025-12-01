@@ -26,6 +26,6 @@ data class Report(
     @Column(columnDefinition = "TEXT")
     var summary: String? = null,
 
-    @Column(name = "send_at")
-    var sendAt: LocalDateTime = LocalDateTime.now()
+    @Column(name = "generated_at")
+    var generatedAt: LocalDateTime = LocalDateTime.now()
 )

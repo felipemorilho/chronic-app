@@ -23,6 +23,7 @@ class GetUserPainRegisterUseCase(
             .map {
                 PainRegisterResponse(
                     id = it.id,
+                    userId = it.user.id,
                     intensity = it.intensity,
                     description = it.description,
                     bodyPart = it.bodyPart,

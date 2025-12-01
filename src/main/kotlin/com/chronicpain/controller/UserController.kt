@@ -5,6 +5,7 @@ import com.chronicpain.domain.dto.user.UpdateUserRequest
 import com.chronicpain.domain.dto.user.UserResponse
 import com.chronicpain.usecase.user.CreateUserUseCase
 import com.chronicpain.usecase.user.DeleteUserUseCase
+import com.chronicpain.usecase.user.GetAllUsersUseCase
 import com.chronicpain.usecase.user.GetUserUseCase
 import com.chronicpain.usecase.user.UpdateUserUseCase
 import org.springframework.http.ResponseEntity
@@ -16,12 +17,18 @@ class UserController(
     private val createUserUseCase: CreateUserUseCase,
     private val updateUserUseCase: UpdateUserUseCase,
     private val deleteUserUseCase: DeleteUserUseCase,
-    private val getUserUseCase: GetUserUseCase
+    private val getUserUseCase: GetUserUseCase,
+    private val getAllUsersUseCase: GetAllUsersUseCase
 ) {
 
     @PostMapping
     fun create(@RequestBody request: CreateUserRequest): ResponseEntity<UserResponse> {
         return ResponseEntity.ok(createUserUseCase.execute(request))
+    }
+
+    @GetMapping
+    fun getAllUsers(): ResponseEntity<List<UserResponse>> {
+        return ResponseEntity.ok(getAllUsersUseCase.execute())
     }
 
     @GetMapping("/{id}")

@@ -5,6 +5,7 @@ import com.chronicpain.domain.dto.painregister.PainRegisterResponse
 import com.chronicpain.domain.dto.painregister.UpdatePainRegisterRequest
 import com.chronicpain.usecase.painregister.CreatePainRegisterUseCase
 import com.chronicpain.usecase.painregister.DeletePainRegisterUseCase
+import com.chronicpain.usecase.painregister.GetPainRegisterByIdUseCase
 import com.chronicpain.usecase.painregister.GetUserPainRegisterUseCase
 import com.chronicpain.usecase.painregister.UpdatePainRegisterUseCase
 import org.springframework.http.ResponseEntity
@@ -23,7 +24,8 @@ class PainRegisterController(
     private val createPainRegisterUseCase: CreatePainRegisterUseCase,
     private val updatePainRegisterUseCase: UpdatePainRegisterUseCase,
     private val deletePainRegisterUseCase: DeletePainRegisterUseCase,
-    private val getUserPainRegisterUseCase: GetUserPainRegisterUseCase
+    private val getUserPainRegisterUseCase: GetUserPainRegisterUseCase,
+    private val getPainRegisterByIdUseCase: GetPainRegisterByIdUseCase
 ) {
 
     @PostMapping
@@ -31,8 +33,13 @@ class PainRegisterController(
         return ResponseEntity.ok(createPainRegisterUseCase.execute(request))
     }
 
-    @GetMapping("/{userId}")
-    fun getById(@PathVariable userId: Long): ResponseEntity<List<PainRegisterResponse>> {
+    @GetMapping("/{painRegisterId}")
+    fun getById(@PathVariable painRegisterId: Long): ResponseEntity<PainRegisterResponse> {
+        return ResponseEntity.ok(getPainRegisterByIdUseCase.execute(painRegisterId))
+    }
+
+    @GetMapping("/user/{userId}")
+    fun getByUserId(@PathVariable userId: Long): ResponseEntity<List<PainRegisterResponse>> {
         return ResponseEntity.ok(getUserPainRegisterUseCase.execute(userId))
     }
 

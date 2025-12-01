@@ -74,6 +74,7 @@ class UpdatePainRegisterUseCase(
     private fun buildPainRegisterResponse(savedPainRegister: PainRegister): PainRegisterResponse =
         PainRegisterResponse(
             id = savedPainRegister.id,
+            userId = savedPainRegister.user.id,
             intensity = savedPainRegister.intensity,
             description = savedPainRegister.description,
             bodyPart = savedPainRegister.bodyPart,

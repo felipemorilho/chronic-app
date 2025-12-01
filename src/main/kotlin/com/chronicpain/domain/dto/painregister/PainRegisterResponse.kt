@@ -5,6 +5,7 @@ import java.time.LocalDateTime
 data class PainRegisterResponse(
 
     val id: Long,
+    val userId: Long,
     val intensity: Int,
     val description: String?,
     val bodyPart: String?,

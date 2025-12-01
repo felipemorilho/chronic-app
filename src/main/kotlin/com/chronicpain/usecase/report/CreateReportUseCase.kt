@@ -67,10 +67,11 @@ class CreateReportUseCase(
     private fun buildReportResponse(savedReport: Report): ReportResponse {
         return ReportResponse(
             id = savedReport.id,
+            userId = savedReport.user.id,
             startedAt = savedReport.startedAt,
             endedAt = savedReport.endedAt,
             summary = savedReport.summary,
-            sendAt = savedReport.sendAt
+            generatedAt = savedReport.generatedAt
         )
     }
 }

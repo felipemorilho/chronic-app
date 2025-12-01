@@ -6,8 +6,9 @@ import java.time.LocalDateTime
 data class ReportResponse(
 
     val id: Long,
+    val userId: Long,
     val startedAt: LocalDate,
     val endedAt: LocalDate? = null,
     val summary: String?,
-    val sendAt: LocalDateTime
+    val generatedAt: LocalDateTime
 )

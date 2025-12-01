@@ -23,10 +23,11 @@ class GetUserReportsUseCase(
             .map {
                 ReportResponse(
                     id = it.id,
+                    userId = it.user.id,
                     startedAt = it.startedAt,
                     endedAt = it.endedAt,
                     summary = it.summary,
-                    sendAt = it.sendAt
+                    generatedAt = it.generatedAt
                 )
             }
             .ifEmpty {
