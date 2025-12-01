@@ -2,6 +2,8 @@ package com.chronicpain.controller
 
 import com.chronicpain.domain.dto.painregister.CreatePainRegisterRequest
 import com.chronicpain.domain.dto.painregister.PainRegisterResponse
+import com.chronicpain.usecase.painregister.CreatePainRegisterUseCase
+import com.chronicpain.usecase.painregister.GetUserPainRegisterUseCase
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -9,7 +11,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/chronicpain/v1/pain")
 class PainRegisterController(
     private val createPainRegisterUseCase: CreatePainRegisterUseCase,
-    private val getUserPainHistoryUseCase: GetUserPainHistoryUseCase
+    private val getUserPainRegisterUseCase: GetUserPainRegisterUseCase
 ) {
 
     @PostMapping
@@ -18,7 +20,7 @@ class PainRegisterController(
     }
 
     @GetMapping("/{userId}")
-    fun getById(@PathVariable userId: Long): ResponseEntity<PainRegisterResponse> {
-        return ResponseEntity.ok(getUserPainHistoryUseCase.execute(userId))
+    fun getById(@PathVariable userId: Long): ResponseEntity<List<PainRegisterResponse>> {
+        return ResponseEntity.ok(getUserPainRegisterUseCase.execute(userId))
     }
 }

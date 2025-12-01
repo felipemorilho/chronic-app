@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface PainRegisterRepository : JpaRepository<PainRegister, Long?> {
 
-    fun findByUserId(userId: Long): List<PainRegister>
+    fun findByUserIdOrderByOccurAtDesc(userId: Long): List<PainRegister>
 
 }

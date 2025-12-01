@@ -15,12 +15,12 @@ class CreateUserUseCase(
 ) : UseCase<CreateUserRequest, UserResponse> {
 
     companion object {
-        const val LOG_PREFIX = "[CREATE_USER_USE_CASE"
+        const val LOG_PREFIX = "[CREATE_USER_USE_CASE]"
     }
     private val passwordEncoder = BCryptPasswordEncoder()
 
     override fun execute(input: CreateUserRequest): UserResponse {
-        this.logger().info("{} Starting to create user: {}", LOG_PREFIX, input)
+        this.logger().info("$LOG_PREFIX Starting to create user: $input")
 
         validateInputEmail(input.email)
         val user = buildUser(input)
@@ -30,8 +30,8 @@ class CreateUserUseCase(
 
     private fun validateInputEmail(email: String) {
         if (userRepository.existsByEmail(email)) {
-            val message = String.format("Already exists user with email: {}", email)
-            this.logger().warn("{} {}", LOG_PREFIX, message)
+            val message = String.format("Already exists user with email: $email")
+            this.logger().warn("$LOG_PREFIX $message")
             throw IllegalArgumentException(message)
         }
     }
@@ -46,7 +46,7 @@ class CreateUserUseCase(
 
     private fun saveUser(user: User): UserResponse {
         val savedUser = userRepository.save(user)
-        this.logger().info("{} Successfully saved user: {}", LOG_PREFIX, user)
+        this.logger().info("$LOG_PREFIX Successfully saved user: ${user.id}")
         return buildUserResponse(savedUser)
     }
 

@@ -21,7 +21,7 @@ data class Report(
     var startedAt: LocalDate,
 
     @Column(name = "ended_at")
-    var endedAt: LocalDate,
+    var endedAt: LocalDate?,
 
     @Column(columnDefinition = "TEXT")
     var summary: String? = null,

@@ -17,7 +17,7 @@ class GetUserUseCase(
     }
 
     override fun execute(input: Long): UserResponse {
-        this.logger().info("{} Starting to get User for id: {}", LOG_PREFIX, input.toString())
+        this.logger().info("$LOG_PREFIX Starting to get User for id: $input")
 
         val user = fetchUserById(input)
 
@@ -27,8 +27,8 @@ class GetUserUseCase(
     private fun fetchUserById(userId: Long): User {
         return userRepository.findById(userId)
             .orElseThrow{
-                val message = String.format(" User not found for id: {}", userId.toString())
-                this.logger().error("{} {}", LOG_PREFIX, message)
+                val message = String.format(" User not found for id: $userId")
+                this.logger().error("$LOG_PREFIX $message")
                 NoSuchElementException(message)
             }
     }

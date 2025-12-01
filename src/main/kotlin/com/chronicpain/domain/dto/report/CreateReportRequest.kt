@@ -6,5 +6,6 @@ data class CreateReportRequest(
 
     val userId: Long,
     val startedAt: LocalDate,
-    val endedAt: LocalDate? = null
+    val endedAt: LocalDate? = null,
+    val summary: String
 )
