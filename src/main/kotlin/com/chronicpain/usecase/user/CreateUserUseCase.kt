@@ -4,7 +4,6 @@ import com.chronicpain.domain.dto.user.CreateUserRequest
 import com.chronicpain.domain.dto.user.UserResponse
 import com.chronicpain.domain.model.User
 import com.chronicpain.exception.ConflictException
-import com.chronicpain.exception.NotFoundException
 import com.chronicpain.repository.UserRepository
 import com.chronicpain.usecase.UseCase
 import com.chronicpain.utils.logger
