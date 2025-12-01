@@ -4,12 +4,14 @@ import com.chronicpain.domain.dto.report.CreateReportRequest
 import com.chronicpain.domain.dto.report.ReportResponse
 import com.chronicpain.domain.model.Report
 import com.chronicpain.domain.model.User
+import com.chronicpain.exception.BadRequestException
 import com.chronicpain.exception.NotFoundException
 import com.chronicpain.repository.ReportRepository
 import com.chronicpain.repository.UserRepository
 import com.chronicpain.usecase.UseCase
 import com.chronicpain.utils.logger
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 
 @Service
 class CreateReportUseCase(
@@ -24,10 +26,24 @@ class CreateReportUseCase(
     override fun execute(input: CreateReportRequest): ReportResponse {
         this.logger().info("$LOG_PREFIX Starting to create report: $input")
 
+        validateInput(input)
         val report = buildReport(input)
         val savedReport = reportRepository.save(report)
 
         return buildReportResponse(savedReport)
+    }
+
+    private fun validateInput(input: CreateReportRequest) {
+        input.endedAt?.let { validateInputDates(input.startedAt, it) }
+        validateInputSummary(input.summary)
+    }
+
+    private fun validateInputDates(startedAt: LocalDate, endedAt: LocalDate) {
+        if (startedAt < endedAt) throw BadRequestException("Started date must be greater than or equal to ended date")
+    }
+
+    private fun validateInputSummary(inputSummary: String) {
+        if (inputSummary.length < 3 || inputSummary.length > 500) throw BadRequestException("Name should have between 3 and 500 characters")
     }
 
     private fun buildReport(request: CreateReportRequest): Report {
