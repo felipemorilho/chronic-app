@@ -4,9 +4,11 @@ import com.chronicpain.domain.dto.painregister.CreatePainRegisterRequest
 import com.chronicpain.domain.dto.painregister.PainRegisterResponse
 import com.chronicpain.domain.dto.painregister.UpdatePainRegisterRequest
 import com.chronicpain.usecase.painregister.CreatePainRegisterUseCase
+import com.chronicpain.usecase.painregister.DeletePainRegisterUseCase
 import com.chronicpain.usecase.painregister.GetUserPainRegisterUseCase
 import com.chronicpain.usecase.painregister.UpdatePainRegisterUseCase
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController
 class PainRegisterController(
     private val createPainRegisterUseCase: CreatePainRegisterUseCase,
     private val updatePainRegisterUseCase: UpdatePainRegisterUseCase,
+    private val deletePainRegisterUseCase: DeletePainRegisterUseCase,
     private val getUserPainRegisterUseCase: GetUserPainRegisterUseCase
 ) {
 
@@ -44,6 +47,11 @@ class PainRegisterController(
         )
 
         return ResponseEntity.ok(updatePainRegisterUseCase.execute(updatePainRegisterRequest))
+    }
+
+    @DeleteMapping("/{painRegisterId}")
+    fun delete(@PathVariable painRegisterId: Long): ResponseEntity<Unit> {
+        return ResponseEntity.ok(deletePainRegisterUseCase.execute(painRegisterId))
     }
 
 }

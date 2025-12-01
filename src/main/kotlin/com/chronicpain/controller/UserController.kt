@@ -4,6 +4,7 @@ import com.chronicpain.domain.dto.user.CreateUserRequest
 import com.chronicpain.domain.dto.user.UpdateUserRequest
 import com.chronicpain.domain.dto.user.UserResponse
 import com.chronicpain.usecase.user.CreateUserUseCase
+import com.chronicpain.usecase.user.DeleteUserUseCase
 import com.chronicpain.usecase.user.GetUserUseCase
 import com.chronicpain.usecase.user.UpdateUserUseCase
 import org.springframework.http.ResponseEntity
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*
 class UserController(
     private val createUserUseCase: CreateUserUseCase,
     private val updateUserUseCase: UpdateUserUseCase,
+    private val deleteUserUseCase: DeleteUserUseCase,
     private val getUserUseCase: GetUserUseCase
 ) {
 
@@ -38,5 +40,10 @@ class UserController(
         )
 
         return ResponseEntity.ok(updateUserUseCase.execute(updateUserRequest))
+    }
+
+    @DeleteMapping("/{id}")
+    fun delete(@PathVariable id: Long): ResponseEntity<Unit> {
+        return ResponseEntity.ok(deleteUserUseCase.execute(id))
     }
 }

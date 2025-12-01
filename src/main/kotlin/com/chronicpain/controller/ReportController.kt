@@ -4,6 +4,7 @@ import com.chronicpain.domain.dto.report.CreateReportRequest
 import com.chronicpain.domain.dto.report.ReportResponse
 import com.chronicpain.domain.dto.report.UpdateReportRequest
 import com.chronicpain.usecase.report.CreateReportUseCase
+import com.chronicpain.usecase.report.DeleteReportUseCase
 import com.chronicpain.usecase.report.GetUserReportsUseCase
 import com.chronicpain.usecase.report.UpdateReportUseCase
 import org.springframework.http.ResponseEntity
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*
 class ReportController(
     private val createReportUseCase: CreateReportUseCase,
     private val updateReportUseCase: UpdateReportUseCase,
+    private val deleteReportUseCase: DeleteReportUseCase,
     private val getUserReportsUseCase: GetUserReportsUseCase
 ) {
 
@@ -37,5 +39,10 @@ class ReportController(
         )
 
         return ResponseEntity.ok(updateReportUseCase.execute(updateReportRequest))
+    }
+
+    @DeleteMapping("/{reportId}")
+    fun delete(@PathVariable reportId: Long): ResponseEntity<Unit> {
+        return ResponseEntity.ok(deleteReportUseCase.execute(reportId))
     }
 }
