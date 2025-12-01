@@ -43,7 +43,7 @@ class CreateReportUseCase(
     private fun fetchReportUser(id: Long): User =
         userRepository.findById(id)
             .orElseThrow {
-                val message = String.format("Report User not found for id: $id")
+                val message = String.format("User not found for id: $id")
                 this.logger().warn("{} {}", LOG_PREFIX, message)
                 NotFoundException(message)
             }

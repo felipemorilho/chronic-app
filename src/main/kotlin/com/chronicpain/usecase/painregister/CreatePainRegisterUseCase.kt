@@ -46,8 +46,8 @@ class CreatePainRegisterUseCase(
     private fun fetchUserForPainRegister(request: CreatePainRegisterRequest): User =
         userRepository.findById(request.userId)
             .orElseThrow {
-                val message = String.format("User ${request.userId} not found for register pain")
-                this.logger().warn("{} {}", LOG_PREFIX, message)
+                val message = String.format("User ${request.userId} not found")
+                this.logger().warn("$LOG_PREFIX $message")
                 NotFoundException(message)
             }
 
