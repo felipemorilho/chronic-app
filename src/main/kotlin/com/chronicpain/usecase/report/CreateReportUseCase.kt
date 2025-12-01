@@ -4,6 +4,7 @@ import com.chronicpain.domain.dto.report.CreateReportRequest
 import com.chronicpain.domain.dto.report.ReportResponse
 import com.chronicpain.domain.model.Report
 import com.chronicpain.domain.model.User
+import com.chronicpain.exception.NotFoundException
 import com.chronicpain.repository.ReportRepository
 import com.chronicpain.repository.UserRepository
 import com.chronicpain.usecase.UseCase
@@ -44,7 +45,7 @@ class CreateReportUseCase(
             .orElseThrow {
                 val message = String.format("Report User not found for id: $id")
                 this.logger().warn("{} {}", LOG_PREFIX, message)
-                throw IllegalArgumentException(message)
+                NotFoundException(message)
             }
 
     private fun buildReportResponse(savedReport: Report): ReportResponse {

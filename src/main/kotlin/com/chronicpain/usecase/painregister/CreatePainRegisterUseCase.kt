@@ -4,6 +4,7 @@ import com.chronicpain.domain.dto.painregister.CreatePainRegisterRequest
 import com.chronicpain.domain.dto.painregister.PainRegisterResponse
 import com.chronicpain.domain.model.PainRegister
 import com.chronicpain.domain.model.User
+import com.chronicpain.exception.NotFoundException
 import com.chronicpain.repository.PainRegisterRepository
 import com.chronicpain.repository.UserRepository
 import com.chronicpain.usecase.UseCase
@@ -47,7 +48,7 @@ class CreatePainRegisterUseCase(
             .orElseThrow {
                 val message = String.format("User ${request.userId} not found for register pain")
                 this.logger().warn("{} {}", LOG_PREFIX, message)
-                throw IllegalArgumentException(message)
+                NotFoundException(message)
             }
 
 

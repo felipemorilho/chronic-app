@@ -3,6 +3,7 @@ package com.chronicpain.usecase.user
 import com.chronicpain.domain.dto.user.CreateUserRequest
 import com.chronicpain.domain.dto.user.UserResponse
 import com.chronicpain.domain.model.User
+import com.chronicpain.exception.NotFoundException
 import com.chronicpain.repository.UserRepository
 import com.chronicpain.usecase.UseCase
 import com.chronicpain.utils.logger
@@ -32,7 +33,7 @@ class CreateUserUseCase(
         if (userRepository.existsByEmail(email)) {
             val message = String.format("Already exists user with email: $email")
             this.logger().warn("$LOG_PREFIX $message")
-            throw IllegalArgumentException(message)
+            throw NotFoundException(message)
         }
     }
 

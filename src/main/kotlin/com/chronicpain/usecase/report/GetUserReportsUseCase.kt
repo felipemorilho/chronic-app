@@ -1,6 +1,7 @@
 package com.chronicpain.usecase.report
 
 import com.chronicpain.domain.dto.report.ReportResponse
+import com.chronicpain.exception.NotFoundException
 import com.chronicpain.repository.ReportRepository
 import com.chronicpain.usecase.UseCase
 import com.chronicpain.utils.logger
@@ -27,6 +28,11 @@ class GetUserReportsUseCase(
                     summary = it.summary,
                     sendAt = it.sendAt
                 )
+            }
+            .ifEmpty {
+                val message = String.format("No reports found for user $input")
+                this.logger().warn("$LOG_PREFIX $message")
+                throw NotFoundException(message)
             }
     }
 }
