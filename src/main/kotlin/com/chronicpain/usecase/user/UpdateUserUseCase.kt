@@ -24,7 +24,7 @@ class UpdateUserUseCase(
     private val passwordEncoder = BCryptPasswordEncoder()
 
     override fun execute(input: UpdateUserRequest): UserResponse {
-        this.logger().info("$LOG_PREFIX Starting to update user id=${input.userId}")
+        this.logger().info("$LOG_PREFIX Starting to update user id: ${input.userId}")
 
         val existingUser = validateUser(input.userId)
         validateInput(input, existingUser)
@@ -36,7 +36,7 @@ class UpdateUserUseCase(
     private fun validateUser(id: Long): User =
         userRepository.findById(id)
             .orElseThrow {
-                val message = String.format("User with $id does not exists")
+                val message = String.format("User with id $id does not exists")
                 this.logger().warn("$LOG_PREFIX $message")
                 NotFoundException(message)
         }
@@ -89,7 +89,7 @@ class UpdateUserUseCase(
 
     private fun saveUser(user: User): UserResponse {
         val saved = userRepository.save(user)
-        this.logger().info("$LOG_PREFIX Successfully updated user: id=${saved.id}")
+        this.logger().info("$LOG_PREFIX Successfully updated user: id ${saved.id}")
         return buildUserResponse(saved)
     }
 

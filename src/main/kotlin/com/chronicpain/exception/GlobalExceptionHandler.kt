@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.method.annotation.HandlerMethodValidationException
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
@@ -61,5 +62,21 @@ class GlobalExceptionHandler {
         )
 
         return ResponseEntity(error, HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler(HandlerMethodValidationException::class)
+    fun handleHandlerMethodValidationException(exception: HandlerMethodValidationException): ResponseEntity<ApiError> {
+
+        val fieldErrors = exception.allErrors.associate { error ->
+            val field = error.codes?.firstOrNull()?.substringAfterLast(".") ?: "param"
+            field to (error.defaultMessage ?: "Invalid value")
+        }
+
+        val apiError = ApiError(
+            message = "Validation error",
+            errors = fieldErrors
+        )
+
+        return ResponseEntity(apiError, HttpStatus.BAD_REQUEST)
     }
 }
