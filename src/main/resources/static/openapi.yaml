@@ -1,0 +1,364 @@
+openapi: 3.0.3
+info:
+  title: ChronicPain API
+  version: 1.0.0
+  description: API for managing users, pain register logs and chronic pain reports.
+
+servers:
+  - url: http://localhost:8080
+
+tags:
+  - name: Users
+    description: User management operations
+  - name: PainRegister
+    description: Pain intensity tracking operations
+  - name: Reports
+    description: Episodes report management
+
+paths:
+
+  /chronicpain/v1/users:
+    post:
+      tags: [Users]
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserRequest"
+      responses:
+        "200":
+          description: User successfully created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "400": { description: Validation error }
+        "409": { description: A user with the provided email already exists }
+
+    get:
+      tags: [Users]
+      summary: Retrieve all users
+      responses:
+        "200":
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserResponse"
+
+  /chronicpain/v1/users/{id}:
+    get:
+      tags: [Users]
+      summary: Retrieve a user by ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+        "404": { description: User not found }
+
+    put:
+      tags: [Users]
+      summary: Update a user
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserRequest"
+      responses:
+        "200":
+          description: User successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+
+    delete:
+      tags: [Users]
+      summary: Delete a user
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+      responses:
+        "200": { description: User successfully deleted }
+        "404": { description: User not found }
+
+  /chronicpain/v1/pain:
+    post:
+      tags: [PainRegister]
+      summary: Create a new pain register entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePainRegisterRequest"
+      responses:
+        "200":
+          description: Pain register created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PainRegisterResponse"
+
+  /chronicpain/v1/pain/{painRegisterId}:
+    get:
+      tags: [PainRegister]
+      summary: Retrieve pain register by ID
+      parameters:
+        - in: path
+          name: painRegisterId
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Pain register found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PainRegisterResponse"
+        "404": { description: Pain register not found }
+
+    put:
+      tags: [PainRegister]
+      summary: Update a pain register entry
+      parameters:
+        - in: path
+          name: painRegisterId
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatePainRegisterRequest"
+      responses:
+        "200":
+          description: Pain register updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PainRegisterResponse"
+
+    delete:
+      tags: [PainRegister]
+      summary: Delete a pain register entry
+      parameters:
+        - in: path
+          name: painRegisterId
+          schema:
+            type: integer
+      responses:
+        "200": { description: Pain register deleted }
+        "404": { description: Not found }
+
+  /chronicpain/v1/pain/user/{userId}:
+    get:
+      tags: [PainRegister]
+      summary: Retrieve all pain registers for a user
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of pain registers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PainRegisterResponse"
+        "404": { description: No pain registers found }
+
+  /chronicpain/v1/report:
+    post:
+      tags: [Reports]
+      summary: Create a new pain report
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateReportRequest"
+      responses:
+        "200":
+          description: Report created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReportResponse"
+
+  /chronicpain/v1/report/{reportId}:
+    get:
+      tags: [Reports]
+      summary: Retrieve a report by ID
+      parameters:
+        - in: path
+          name: reportId
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Report found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReportResponse"
+        "404": { description: Report not found }
+
+    put:
+      tags: [Reports]
+      summary: Update an existing report
+      parameters:
+        - in: path
+          name: reportId
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateReportRequest"
+      responses:
+        "200":
+          description: Report updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReportResponse"
+
+    delete:
+      tags: [Reports]
+      summary: Delete a report
+      parameters:
+        - in: path
+          name: reportId
+          schema:
+            type: integer
+      responses:
+        "200": { description: Report deleted }
+
+  /chronicpain/v1/report/user/{userId}:
+    get:
+      tags: [Reports]
+      summary: Retrieve all reports for a user
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of reports
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ReportResponse"
+        "404": { description: No reports found }
+
+components:
+  schemas:
+
+    CreateUserRequest:
+      type: object
+      required: [name, email, password, type]
+      properties:
+        name: { type: string, minLength: 3, maxLength: 70 }
+        email: { type: string, format: email }
+        password: { type: string, minLength: 6, maxLength: 15 }
+        type: { type: string }
+
+    UpdateUserRequest:
+      type: object
+      properties:
+        name: { type: string }
+        email: { type: string }
+        password: { type: string }
+        type: { type: string }
+
+    UserResponse:
+      type: object
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        email: { type: string }
+        type: { type: string }
+
+    CreatePainRegisterRequest:
+      type: object
+      required: [userId, intensity]
+      properties:
+        userId: { type: integer }
+        intensity: { type: integer, minimum: 1, maximum: 10 }
+        description: { type: string }
+        bodyPart: { type: string }
+        occurAt: { type: string, format: date-time }
+
+    UpdatePainRegisterRequest:
+      type: object
+      properties:
+        intensity: { type: integer }
+        description: { type: string }
+        bodyPart: { type: string }
+        occurAt: { type: string, format: date-time }
+
+    PainRegisterResponse:
+      type: object
+      properties:
+        id: { type: integer }
+        userId: { type: integer }
+        intensity: { type: integer }
+        description: { type: string }
+        bodyPart: { type: string }
+        occurAt: { type: string, format: date-time }
+
+    CreateReportRequest:
+      type: object
+      required: [userId, startedAt, summary]
+      properties:
+        userId: { type: integer }
+        startedAt: { type: string, format: date }
+        endedAt: { type: string, format: date }
+        summary: { type: string }
+
+    UpdateReportRequest:
+      type: object
+      properties:
+        startedAt: { type: string, format: date }
+        endedAt: { type: string, format: date }
+        summary: { type: string }
+
+    ReportResponse:
+      type: object
+      properties:
+        id: { type: integer }
+        userId: { type: integer }
+        startedAt: { type: string, format: date }
+        endedAt: { type: string, format: date }
+        summary: { type: string }
+        generatedAt: { type: string, format: date-time }

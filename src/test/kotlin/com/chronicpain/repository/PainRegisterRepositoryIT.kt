@@ -40,7 +40,7 @@ class PainRegisterRepositoryIT(
             )
         )
 
-        val list = painRegisterRepository.findByUserIdOrderByOccurAtDesc(user.id!!)
+        val list = painRegisterRepository.findByUserIdOrderByOccurAtDesc(user.id)
 
         assertEquals(1, list.size)
         assertEquals(register.id, list[0].id)
